@@ -141,6 +141,8 @@ for (( i = 0; i < ${#targets[@]}; i++ )); do
   srcJson=`cat $jsonPath`
 
   echo $srcJson | jq ".Distribution.DistributionConfig.CustomErrorResponses=$customErrorResponses" > $jsonPath
+
+  ./update.sh $target
 done
 ```
 
