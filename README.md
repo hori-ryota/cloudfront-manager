@@ -6,7 +6,15 @@
 
 コマンドによってjsonのプロパティ順が違うようなので、作業後は `fetchall.sh` でお掃除することを推奨。
 
+*CloudFrontの設定は失敗するとサービスに致命傷をあたえますが、使用は自己責任でお願いします。*
+
 ## 下準備
+
+### 依存ツール
+
+* awscli
+* jq
+
 cloudfrontコマンドはpreview版なので有効にする
 ```sh
 $ aws configure set preview.cloudfront true
