@@ -97,6 +97,56 @@ $ ./create.sh ${targetName}
 
 Locationプロパティは邪魔なので削除。
 
+## 補足
+
+スクリプトは基礎的なコマンドとして、for分で実行するスクリプトを別途用意すると便利。
+
+```sh
+#!/bin/bash
+
+set -eu
+
+targets=(
+"DISTRIBUTION_ID_1"
+"DISTRIBUTION_ID_2"
+)
+
+customErrorResponses='
+      {
+        "Items": [
+          {
+            "ErrorCode": 400,
+            "ResponsePagePath": "",
+            "ResponseCode": "",
+            "ErrorCachingMinTTL": 1
+          }
+        ],
+        "Quantity": 1
+      }
+'
+
+dir='json'
+
+for (( i = 0; i < ${#targets[@]}; i++ )); do
+  target=${targets[$i]}
+  echo "target = $target"
+
+  jsonPath="$dir/$target.json"
+
+  if [ ! -e $jsonPath ]; then
+    echo "json file not found [$jsonPath]"
+    exit 1
+  fi
+
+  srcJson=`cat $jsonPath`
+
+  echo $srcJson | jq ".Distribution.DistributionConfig.CustomErrorResponses=$customErrorResponses" > $jsonPath
+done
+```
+
+みたいな。
+
+
 ## TODO
 
 * distributionId管理だと視認性が悪いのでaliasをつけたい。
